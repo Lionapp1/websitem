@@ -1,4 +1,4 @@
-```gitignore
+```
 # Dependencies
 node_modules/
 
@@ -17,12 +17,15 @@ env/
 venv/
 .venv/
 .ENV
+.env
+.env.*
+.env.local
 .python-version
-*.so
-.Python
-.eggs/
-egg-info/
-*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.coverage
+coverage/
+htmlcov/
 
 # Logs
 *.log
@@ -41,22 +44,10 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
-*~
+*.tmp
 
-# Environment variables
+# Environment specific
 .env
 .env.local
-.env.*
-!.env.example
-
-# Coverage reports
-coverage/
-htmlcov/
-.coverage
-*.coverage
-
-# Temporary files
-*.tmp
-*.temp
-.DS_Store
+*.env.*
 ```
