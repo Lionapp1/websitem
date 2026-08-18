@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Plus, Search, Filter, Eye, Edit2, Trash2, MoreVertical, Video, Play } from 'lucide-react';
 import type { VideoItem } from '../types';
 import { getVideos, saveVideos } from '../data/storage';
 
 const statusLabels = {
-  yayinda: { label: 'Yayında', class: 'bg-emerald-50 text-emerald-700' },
-  taslak: { label: 'Taslak', class: 'bg-amber-50 text-amber-700' },
-  arsiv: { label: 'Arşiv', class: 'bg-slate-100 text-slate-600' },
+  yayinda: { label: 'Yayında', class: 'bg-emerald-50 text-emerald-700 border border-emerald-200' },
+  taslak: { label: 'Taslak', class: 'bg-amber-50 text-amber-700 border border-amber-200' },
+  arsiv: { label: 'Arşiv', class: 'bg-slate-100 text-slate-600 border border-slate-200' },
 };
 
 export default function VideoList() {
@@ -15,6 +15,7 @@ export default function VideoList() {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [menuOpen, setMenuOpen] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setVideos(getVideos());
@@ -35,6 +36,17 @@ export default function VideoList() {
     saveVideos(updated);
     setMenuOpen(null);
   };
+
+  const handleEdit = (id: string) => {
+    navigate(`/admin/videolar/duzenle/${id}`);
+    setMenuOpen(null);
+  };
+
+  const handleView = (id: string) => {
+    navigate(`/admin/videolar/${id}`);
+    setMenuOpen(null);
+  };
+
 
   return (
     <div className="space-y-5">
@@ -121,22 +133,31 @@ export default function VideoList() {
                   <div className="relative">
                     <button
                       onClick={() => setMenuOpen(menuOpen === video.id ? null : video.id)}
-                      className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500"
+                      className="p-2 rounded-lg hover:bg-slate-100 text-slate-600 transition-colors"
                     >
-                      <MoreVertical size={16} />
+                      <MoreVertical size={18} />
                     </button>
                     {menuOpen === video.id && (
                       <>
                         <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(null)} />
-                        <div className="absolute right-0 bottom-full mb-1 w-36 bg-white rounded-lg shadow-lg border border-slate-100 py-1 z-20">
-                          <Link to={`/admin/videolar/${video.id}`} className="flex items-center gap-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">
-                            <Eye size={14} /> Görüntüle
-                          </Link>
-                          <Link to={`/admin/videolar/duzenle/${video.id}`} className="flex items-center gap-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">
-                            <Edit2 size={14} /> Düzenle
-                          </Link>
-                          <button onClick={() => handleDelete(video.id)} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50">
-                            <Trash2 size={14} /> Sil
+                        <div className="absolute right-0 bottom-full mb-2 w-40 bg-white rounded-xl shadow-xl border border-slate-100 py-1.5 z-20 overflow-hidden">
+                          <button
+                            onClick={() => handleView(video.id)}
+                            className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 transition-colors"
+                          >
+                            <Eye size={16} className="text-emerald-600" /> Görüntüle
+                          </button>
+                          <button
+                            onClick={() => handleEdit(video.id)}
+                            className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+                          >
+                            <Edit2 size={16} className="text-blue-600" /> Düzenle
+                          </button>
+                          <button
+                            onClick={() => handleDelete(video.id)}
+                            className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                          >
+                            <Trash2 size={16} /> Sil
                           </button>
                         </div>
                       </>
