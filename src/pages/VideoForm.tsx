@@ -137,15 +137,56 @@ export default function VideoForm() {
             <input
               name="videoUrl"
               value={form.videoUrl}
-              onChange={handleChange}
+              onChange={(e) => {
+                const url = e.target.value;
+                setForm((prev) => ({ ...prev, videoUrl: url }));
+                
+                // Otomatik thumbnail çıkarma - YouTube
+                if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                  const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/);
+                  if (ytMatch && !form.thumbnailUrl) {
+                    const videoId = ytMatch[1];
+                    setForm((prev) => ({ 
+                      ...prev, 
+                      thumbnailUrl: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+                    }));
+                  }
+                } 
+                // Otomatik thumbnail çıkarma - Vimeo
+                else if (url.includes('vimeo.com')) {
+                  const vimeoMatch = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+                  if (vimeoMatch && !form.thumbnailUrl) {
+                    const videoId = vimeoMatch[1];
+                    setForm((prev) => ({ 
+                      ...prev, 
+                      thumbnailUrl: `https://vumbnail.com/${videoId}.jpg`
+                    }));
+                  }
+                }
+              }}
               placeholder="YouTube, Vimeo veya doğrudan video linki"
               className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none text-sm"
               required
             />
           </div>
           <p className="text-xs text-slate-400 mt-1">
-            youtube.com/watch, youtu.be, shorts, vimeo.com veya .mp4 linkleri otomatik algılanır
+            YouTube/Vimeo linkini yapıştırınca otomatik olarak kapak resmi eklenir
           </p>
+          {form.videoUrl && (
+            <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200">
+              <p className="text-xs text-slate-600 font-medium mb-2">Önizleme:</p>
+              <div className="aspect-video bg-slate-200 rounded-lg overflow-hidden">
+                <iframe
+                  src={toEmbedUrl(form.videoUrl)}
+                  title="Video önizleme"
+                  className="w-full h-full"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         <div>
