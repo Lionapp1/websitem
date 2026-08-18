@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Eye, Calendar, User, Tag } from 'lucide-react';
+import { ArrowLeft, Eye, Calendar, Tag } from 'lucide-react';
 import type { NewsItem } from '../../types';
 import { getNewsById, getPublishedNews } from '../../data/storage';
 
