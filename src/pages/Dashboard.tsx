@@ -41,6 +41,7 @@ export default function Dashboard() {
       up: true,
       icon: Newspaper,
       color: 'bg-emerald-500',
+      hoverColor: 'hover:bg-emerald-600',
     },
     {
       label: 'Toplam Video',
@@ -50,6 +51,7 @@ export default function Dashboard() {
       up: true,
       icon: Video,
       color: 'bg-violet-500',
+      hoverColor: 'hover:bg-violet-600',
     },
     {
       label: 'Toplam Görüntülenme',
@@ -59,6 +61,7 @@ export default function Dashboard() {
       up: true,
       icon: Eye,
       color: 'bg-sky-500',
+      hoverColor: 'hover:bg-sky-600',
     },
     {
       label: 'Aktif Yayın',
@@ -68,6 +71,7 @@ export default function Dashboard() {
       up: true,
       icon: Trophy,
       color: 'bg-amber-500',
+      hoverColor: 'hover:bg-amber-600',
     },
   ];
 
@@ -75,12 +79,12 @@ export default function Dashboard() {
   const recentVideos = videos.slice(0, 3);
 
   return (
-    <div className="space-y-6">
-      <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-green-600 rounded-2xl p-6 text-white shadow-lg shadow-emerald-600/20">
+    <div className="space-y-6 animate-fade-in">
+      <div className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 rounded-2xl p-6 text-white shadow-xl shadow-emerald-500/20">
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-2xl font-bold mb-1">Hoş geldiniz 👋</h2>
-            <p className="text-emerald-100 text-sm">
+            <p className="text-emerald-50 text-sm">
               {new Date().toLocaleDateString('tr-TR', {
                 weekday: 'long',
                 year: 'numeric',
@@ -90,7 +94,7 @@ export default function Dashboard() {
               · skdesignsx yönetim paneli
             </p>
           </div>
-          <Trophy className="w-10 h-10 text-emerald-200/80 hidden sm:block" />
+          <Trophy className="w-10 h-10 text-emerald-100/80 hidden sm:block" />
         </div>
       </div>
 
@@ -100,15 +104,15 @@ export default function Dashboard() {
           return (
             <div
               key={stat.label}
-              className="bg-white rounded-xl p-5 shadow-sm border border-slate-100 hover:shadow-md transition"
+              className={`bg-white rounded-xl p-5 shadow-md border border-slate-100 ${stat.hoverColor.replace('hover:', 'hover:shadow-lg')} transition-all duration-200 cursor-pointer group`}
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-sm text-slate-500 mb-1">{stat.label}</p>
-                  <p className="text-2xl font-bold text-slate-800">{stat.value}</p>
+                  <p className="text-sm text-slate-500 mb-1 font-medium">{stat.label}</p>
+                  <p className="text-2xl font-bold text-slate-800 group-hover:scale-105 transition-transform origin-left">{stat.value}</p>
                   <p className="text-xs text-slate-400 mt-0.5">{stat.sub}</p>
                   <div
-                    className={`flex items-center gap-1 mt-2 text-xs font-medium ${
+                    className={`flex items-center gap-1 mt-2 text-xs font-semibold ${
                       stat.up ? 'text-emerald-600' : 'text-red-500'
                     }`}
                   >
@@ -116,7 +120,7 @@ export default function Dashboard() {
                     {stat.change} geçen aya göre
                   </div>
                 </div>
-                <div className={`${stat.color} p-3 rounded-xl text-white`}>
+                <div className={`${stat.color} p-3 rounded-xl text-white shadow-lg group-hover:scale-110 transition-transform duration-200`}>
                   <Icon size={22} />
                 </div>
               </div>
