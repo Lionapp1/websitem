@@ -3,7 +3,6 @@ import { AuthProvider } from './contexts/AuthContext';
 
 // Public
 import PublicLayout from './layouts/PublicLayout';
-import Home from './pages/public/Home';
 import NewsListPublic from './pages/public/NewsListPublic';
 import NewsDetailPublic from './pages/public/NewsDetailPublic';
 import VideosListPublic from './pages/public/VideosListPublic';
@@ -28,9 +27,9 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Public site */}
+          {/* Public site - redirect root to news */}
           <Route element={<PublicLayout />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Navigate to="/haberler" replace />} />
             <Route path="/haberler" element={<NewsListPublic />} />
             <Route path="/haberler/:id" element={<NewsDetailPublic />} />
             <Route path="/videolar" element={<VideosListPublic />} />
@@ -56,8 +55,8 @@ export default function App() {
             <Route path="ayarlar" element={<Settings />} />
           </Route>
 
-          {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          {/* Fallback - redirect to news page as main */}
+          <Route path="*" element={<Navigate to="/haberler" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

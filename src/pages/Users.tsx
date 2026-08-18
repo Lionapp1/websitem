@@ -1,4 +1,4 @@
-import { Users as UsersIcon, Mail, Shield, MoreVertical } from 'lucide-react';
+import { Mail, Shield, MoreVertical } from 'lucide-react';
 
 const users = [
   { id: 1, name: 'Admin Kullanıcı', email: 'admin@medya.com', role: 'Süper Admin', status: 'aktif', avatar: 'AY' },

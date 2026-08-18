@@ -3,7 +3,6 @@ import {
   Newspaper,
   Video,
   Eye,
-  Users,
   Clock,
   ArrowUpRight,
   ArrowDownRight,
